@@ -156,7 +156,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	 * @param attaquant attaquant
 	 * @param defenseur defenseur 
 	 */
-	private void assassiner(VuePersonnage attaquant, VuePersonnage defenseur){
+	private void assasSiner(VuePersonnage attaquant, VuePersonnage defenseur){
 		Personnage pattaquant = attaquant.getElement();
 		Personnage pdefenseur = defenseur.getElement();
 		if (pattaquant instanceof Assassin){
