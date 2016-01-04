@@ -1,13 +1,18 @@
 package serveur.interaction;
 
+import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
+import serveur.element.Diable;
+import serveur.element.PotionMalus;
+import serveur.element.PotionTeleportation;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
+import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 /**
@@ -50,8 +55,21 @@ public class Ramassage extends Interaction<VuePotion> {
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vient de boire un poison... Mort >_<");
 				}
 
-				// suppression de la potion
-				arene.ejectePotion(defenseur.getRefRMI());
+				//remplacement de la potion par une potion malus si c'est un diable
+				if(attaquant.getElement() instanceof Diable){
+					remplacerPotion();
+				}
+				else{// suppression de la potion
+					arene.ejectePotion(defenseur.getRefRMI());
+				}
+				
+				if (defenseur.getElement() instanceof PotionTeleportation){
+					attaquant.setPosition(Calculs.positionAleatoireArene());
+				}
+				
+				if (defenseur.getElement() instanceof PotionMalus){
+					attaquant.getElement().incrementeCaract(Caracteristique.VIE, -10);
+				}
 				
 			} else {
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " ou " + 
@@ -60,5 +78,11 @@ public class Ramassage extends Interaction<VuePotion> {
 		} catch (RemoteException e) {
 			logs(Level.INFO, "\nErreur lors d'un ramassage : " + e.toString());
 		}
+	}
+	
+	public void remplacerPotion() throws RemoteException {
+		Point ref = defenseur.getPosition();
+		arene.ejectePotion(defenseur.getRefRMI());
+		arene.ajoutePotion(new PotionMalus("Malus", "G12", new HashMap<Caracteristique,Integer>()), ref);
 	}
 }
