@@ -7,9 +7,9 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
-import serveur.element.Diable;
-import serveur.element.PotionMalus;
-import serveur.element.PotionTeleportation;
+import serveur.element.personnages.Diable;
+import serveur.element.potions.PotionMalus;
+import serveur.element.potions.PotionTeleportation;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 import utilitaires.Calculs;

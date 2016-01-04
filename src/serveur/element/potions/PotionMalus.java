@@ -1,6 +1,8 @@
-package serveur.element;
+package serveur.element.potions;
 
 import java.util.HashMap;
+
+import serveur.element.Caracteristique;
 
 public class PotionMalus extends Potion{
 
