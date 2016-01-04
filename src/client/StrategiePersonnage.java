@@ -11,6 +11,8 @@ import serveur.IArene;
 import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.personnages.Personnage;
+import serveur.element.personnages.Peureux;
+import serveur.element.personnages.Vampire;
 import serveur.element.potions.Potion;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -45,7 +47,7 @@ public class StrategiePersonnage {
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe, caracts), 
+					new Vampire(nom, groupe, caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			
