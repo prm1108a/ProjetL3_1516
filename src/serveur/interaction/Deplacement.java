@@ -4,6 +4,8 @@ import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 
+import serveur.element.personnages.Personnage;
+import serveur.element.personnages.Peureux;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
 
@@ -80,9 +82,33 @@ public class Deplacement {
 		
 		// on cherche le point voisin vide
 		Point dest = Calculs.meilleurPoint(personnage.getPosition(), cible, voisins);
+		dest = fuir (dest);
 		
 		if(dest != null) {
 			personnage.setPosition(dest);
 		}
 	}
+	
+	/**
+	 * Fuit ou pas devant la cible
+	 * @param cible (ou se trouve l'element)
+	 * @return cible (avec ou sans fuite)
+	 */
+	public Point fuir(Point cible) {
+		Personnage p = personnage.getElement();
+		Point pos = personnage.getPosition();
+		if (p instanceof Peureux){
+			if (pos.x > cible.x)
+				cible.x = cible.x + 2;
+			else if (pos.x < cible.x)
+				cible.x = cible.x - 2;
+			if (pos.y > cible.y)
+				cible.y = cible.y + 2;
+			else if (pos.y < cible.y)
+				cible.y = cible.y - 2;
+		}
+		return cible;
+	}
+	
 }
+

@@ -17,13 +17,13 @@ public class Peureux extends Personnage {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Cree un personnage vampire avec un nom et un groupe.
+	 * Cree un personnage peureux
 	 * @param nom du personnage
 	 * @param groupe d'etudiants du personnage
 	 * @param caracts caracteristiques du personnage
 	 */
 	public Peureux(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
-		super(nom, groupe, caracts);
+		super("Peureux", "G12", caracts);
 	}
 	
 }
