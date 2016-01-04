@@ -21,7 +21,12 @@ public enum Caracteristique {
 	/**
 	 * Initiative : definit l'ordre d'action des personnages lors d'un tour de jeu. 
 	 */
-	INITIATIVE("Initiative", "INIT", 0, 200, 50);
+	INITIATIVE("Initiative", "INIT", 0, 200, 50),
+	
+	/**
+	 * Charme : points de charme d'un personnage. 
+	 */
+	CHARME("Charme", "CHAR", 0, 100, 0);
 	
 	/**
 	 * Nom complet.

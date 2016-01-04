@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
+import serveur.element.personnages.Assassin;
 import serveur.element.personnages.Personnage;
 import serveur.element.personnages.Vampire;
 import serveur.vuelement.VuePersonnage;
@@ -43,6 +44,7 @@ public class Duel extends Interaction<VuePersonnage> {
 			// degats
 			if (perteVie > 0) {
 				puiserVie (attaquant, defenseur);
+				assassiner(attaquant, defenseur);
 				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
@@ -152,5 +154,20 @@ public class Duel extends Interaction<VuePersonnage> {
 			}
 		}
 	}
-	
+	/**
+	 * Vérifie que le personnage soit un assassin et tue l'adversaire.
+	 * @param attaquant attaquant
+	 * @param defenseur defenseur 
+	 */
+	private void assassiner(VuePersonnage attaquant, VuePersonnage defenseur){
+		Personnage pattaquant = attaquant.getElement();
+		Personnage pdefenseur = defenseur.getElement();
+		if (pattaquant instanceof Assassin){
+			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);
+			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
+			if (fattaquant > fdefenseur){
+				pdefenseur.tue();
+			}
+		}
+	}
 }
