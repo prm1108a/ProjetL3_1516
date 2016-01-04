@@ -1,6 +1,8 @@
-package serveur.element;
+package serveur.element.potions;
 
 import java.util.HashMap;
+
+import serveur.element.Caracteristique;
 
 public class PotionTeleportation extends Potion{
 
@@ -11,7 +13,7 @@ public class PotionTeleportation extends Potion{
 	private static final long serialVersionUID = 1L;
 
 	public PotionTeleportation(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
-		super("Téléportation", "G12", caracts);
+		super("Tï¿½lï¿½portation", "G12", caracts);
 	}
 
 }

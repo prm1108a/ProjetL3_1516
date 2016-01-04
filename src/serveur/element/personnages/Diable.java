@@ -1,8 +1,8 @@
-package serveur.element;
+package serveur.element.personnages;
 
 import java.util.HashMap;
 
-import serveur.element.personnages.Personnage;
+import serveur.element.Caracteristique;
 
 public class Diable extends Personnage{
 	private static final long serialVersionUID = 1L;
