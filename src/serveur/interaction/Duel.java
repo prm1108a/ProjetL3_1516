@@ -6,7 +6,8 @@ import java.util.logging.Level;
 
 import serveur.Arene;
 import serveur.element.Caracteristique;
-import serveur.element.Personnage;
+import serveur.element.personnages.Personnage;
+import serveur.element.personnages.Vampire;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
@@ -41,6 +42,7 @@ public class Duel extends Interaction<VuePersonnage> {
 
 			// degats
 			if (perteVie > 0) {
+				puiserVie (attaquant, defenseur);
 				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
@@ -127,4 +129,28 @@ public class Duel extends Interaction<VuePersonnage> {
 		
 		return Constantes.DISTANCE_PROJECTION[quart];
 	}
+	
+	/**
+	 * Vérifie que le personnage soit un vampire, et lui prend de la vie.
+	 * @param attaquant attaquant
+	 * @param defenseur defenseur
+	 * @throws RemoteException 
+	 */
+	private void puiserVie (VuePersonnage attaquant, VuePersonnage defenseur) throws RemoteException {
+		Personnage pattaquant = attaquant.getElement();
+		Personnage pdefenseur = defenseur.getElement();
+		if (pattaquant instanceof Vampire){
+			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);
+			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
+			if (fattaquant > fdefenseur){
+				try {
+				arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fattaquant);
+				} catch (RemoteException e) {
+					logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
+				}
+				
+			}
+		}
+	}
+	
 }

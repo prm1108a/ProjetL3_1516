@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import client.StrategiePersonnage;
 import serveur.IArene;
-import serveur.element.Personnage;
+import serveur.element.personnages.Personnage;
 
 /**
  * Contient les methodes RMI associees au controle d'un personnage,
