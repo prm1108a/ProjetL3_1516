@@ -8,6 +8,7 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.personnages.Diable;
+import serveur.element.potions.PotionInvisibilite;
 import serveur.element.potions.PotionMalus;
 import serveur.element.potions.PotionTeleportation;
 import serveur.vuelement.VuePersonnage;
@@ -67,6 +68,10 @@ public class Ramassage extends Interaction<VuePotion> {
 					attaquant.setPosition(Calculs.positionAleatoireArene());
 				}
 				
+				if (defenseur.getElement() instanceof PotionInvisibilite){
+					//attaquant.getElement()
+				}
+				
 				if (defenseur.getElement() instanceof PotionMalus){
 					attaquant.getElement().incrementeCaract(Caracteristique.VIE, -10);
 				}
@@ -80,6 +85,10 @@ public class Ramassage extends Interaction<VuePotion> {
 		}
 	}
 	
+	/**
+	 * Permet de remplacer la potion ramassée par une potion malus
+	 * @throws RemoteException
+	 */
 	public void remplacerPotion() throws RemoteException {
 		Point ref = defenseur.getPosition();
 		arene.ejectePotion(defenseur.getRefRMI());
