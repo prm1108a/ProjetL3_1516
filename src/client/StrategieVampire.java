@@ -12,13 +12,14 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Potion;
 import serveur.element.personnages.Personnage;
+import serveur.element.personnages.Vampire;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
 /**
- * Strategie d'un personnage. 
+ * Strategie d'un vampire. 
  */
-public class StrategiePersonnage {
+public class StrategieVampire extends StrategiePersonnage{
 	
 	/**
 	 * Console permettant d'ajouter une phrase et de recuperer le serveur 
@@ -37,22 +38,12 @@ public class StrategiePersonnage {
 	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
 	 */
-	public StrategiePersonnage(String ipArene, int port, String ipConsole, 
+	public StrategieVampire(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
 			int nbTours, Point position, LoggerProjet logger) {
 		
-		logger.info("Lanceur", "Creation de la console...");
-		
-		try {
-			console = new Console(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe, caracts), 
-					nbTours, position, logger);
-			logger.info("Lanceur", "Creation de la console reussie");
-			
-		} catch (Exception e) {
-			logger.info("Personnage", "Erreur lors de la creation de la console : \n" + e.toString());
-			e.printStackTrace();
-		}
+		super(ipArene, port, ipConsole, nom, groupe, caracts,
+			nbTours, position, logger);
 	}
 
 	// TODO etablir une strategie afin d'evoluer dans l'arene de combat
