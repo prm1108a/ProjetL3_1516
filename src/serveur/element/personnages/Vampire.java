@@ -23,7 +23,7 @@ public class Vampire extends Personnage {
 	 * @param caracts caracteristiques du personnage
 	 */
 	public Vampire(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
-		super(nom, groupe, caracts);
+		super("Vampire", "G12", caracts);
 	}
 	
 }

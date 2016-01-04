@@ -140,16 +140,14 @@ public class Duel extends Interaction<VuePersonnage> {
 		Personnage pattaquant = attaquant.getElement();
 		Personnage pdefenseur = defenseur.getElement();
 		if (pattaquant instanceof Vampire){
-			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);
 			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
-			if (fattaquant > fdefenseur){
-				try {
+			try {
+				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " je puise ("
+						+ fattaquant + " points de vie) a " + Constantes.nomRaccourciClient(defenseur));
 				arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fattaquant);
-				} catch (RemoteException e) {
-					logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
-				}
-				
-			}
+			} catch (RemoteException e) {
+				logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
+			}	
 		}
 	}
 	
