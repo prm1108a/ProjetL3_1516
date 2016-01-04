@@ -140,7 +140,6 @@ public class Duel extends Interaction<VuePersonnage> {
 	 */
 	private void puiserVie (VuePersonnage attaquant, VuePersonnage defenseur) throws RemoteException {
 		Personnage pattaquant = attaquant.getElement();
-		Personnage pdefenseur = defenseur.getElement();
 		if (pattaquant instanceof Vampire){
 			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
 			try {
