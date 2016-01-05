@@ -15,10 +15,10 @@ public class LancePotion {
 	private static String usage = "USAGE : java " + LancePotion.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		String nom = "Anduril";
+		String nom = "Potion";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
-		String groupe = "G" + Calculs.nombreAleatoire(0,99); 
+		String groupe = "G12"; 
 		
 		// init des arguments
 		int port = Constantes.PORT_DEFAUT;

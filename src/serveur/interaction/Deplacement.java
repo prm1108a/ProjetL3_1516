@@ -25,6 +25,8 @@ public class Deplacement {
 	 */
 	private HashMap<Integer, Point> voisins;
 	
+	private Iteration iteration;
+	
 	/**
 	 * Cree un deplacement.
 	 * @param personnage personnage voulant se deplacer
@@ -32,16 +34,14 @@ public class Deplacement {
 	 */
 	public Deplacement(VuePersonnage personnage, HashMap<Integer, Point> voisins) { 
 		this.personnage = personnage;
+		
+		this.iteration = new Iteration (personnage);
+		iteration.addCharme();
 
-		if (personnage.getElement().getFreeze() == -1){
-			if (voisins == null) {
-				this.voisins = new HashMap<Integer, Point>();
-			} else {
-				this.voisins = voisins;
-			}
-		}
-		else {
-			
+		if (voisins == null) {
+			this.voisins = new HashMap<Integer, Point>();
+		} else {
+			this.voisins = voisins;
 		}
 	}
 
@@ -58,6 +58,7 @@ public class Deplacement {
 
 		// on ne bouge que si la reference n'est pas la notre
 		if (refObjectif != personnage.getRefRMI()) {
+			
 			// la reference est nulle (en fait, nulle ou negative) : 
 			// le personnage erre
 			if (refObjectif <= 0) { 
@@ -68,7 +69,8 @@ public class Deplacement {
 				// la cible devient le point sur lequel se trouve l'element objectif
 				pvers = voisins.get(refObjectif);
 			}
-				// on ne bouge que si l'element existe
+	
+			// on ne bouge que si l'element existe
 			if(pvers != null) {
 				seDirigeVers(pvers);
 			}
@@ -82,12 +84,12 @@ public class Deplacement {
 	 */
 	public void seDirigeVers(Point objectif) throws RemoteException {
 		Point cible = Calculs.restreintPositionArene(objectif); 
-			
+		
 		// on cherche le point voisin vide
 		Point dest = Calculs.meilleurPoint(personnage.getPosition(), cible, voisins);
 		dest = fuir (dest);
-			
-		if(dest != null /*&& vérifie que le personnage ne soit pas immobile*/) {
+		
+		if(dest != null && iteration.checkFreeze()) {
 			personnage.setPosition(dest);
 		}
 	}

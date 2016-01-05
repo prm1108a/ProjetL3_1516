@@ -32,6 +32,8 @@ public abstract class Interaction<T extends VueElement<?>> {
 	 */
 	protected T defenseur;
 	
+	private Iteration iteration;
+	
 	/**
 	 * Cree une interaction entre un personnage et un element.
 	 * @param arene arene
@@ -43,12 +45,15 @@ public abstract class Interaction<T extends VueElement<?>> {
 		this.arene = arene;
 		this.attaquant = attaquant;
 		this.defenseur = defenseur;
+		iteration = new Iteration(attaquant);
 	}
 	
 	/**
 	 * Realise l'interaction.
 	 */
-	public abstract void interagit();
+	public void interagit(){
+		iteration.addCharme();
+	}
 	
 	/**
 	 * Remplit le log de l'arene et des deux clients. 
@@ -65,4 +70,5 @@ public abstract class Interaction<T extends VueElement<?>> {
 			e.printStackTrace();
 		}
 	}
+	
 }

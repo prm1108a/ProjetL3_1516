@@ -6,9 +6,9 @@ import java.util.HashMap;
 import client.controle.Console;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
-import serveur.element.personnages.Vampire;
+import serveur.element.personnages.Peureux;
 
-public class StrategieVampire extends Strategies{
+public class StrategiePeureux extends Strategies{
 	
 	/**
 	 * Cree un personnage, la console associe et sa strategie.
@@ -21,19 +21,19 @@ public class StrategieVampire extends Strategies{
 	 * @param position position initiale du personnage dans l'arene
 	 * @param logger gestionnaire de log
 	 */
-	public StrategieVampire(String ipArene, int port, String ipConsole, 
+	public StrategiePeureux(String ipArene, int port, String ipConsole, 
 			String nom, String groupe, HashMap<Caracteristique, Integer> caracts,
 			int nbTours, Point position, LoggerProjet logger) {
 		logger.info("Lanceur", "Creation de la console...");
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Vampire(nom, groupe, caracts), 
+					new Peureux(nom, groupe, caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			
 		} catch (Exception e) {
-			logger.info("Vampire", "Erreur lors de la creation de la console : \n" + e.toString());
+			logger.info("Peureux", "Erreur lors de la creation de la console : \n" + e.toString());
 			e.printStackTrace();
 		}
 	}

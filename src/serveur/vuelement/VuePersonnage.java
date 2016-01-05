@@ -90,7 +90,7 @@ public class VuePersonnage extends VueElement<Personnage> implements Comparable<
 	public Color getCouleur() {
 		return element.estVivant()? super.getCouleur(): Constantes.COULEUR_MORTS;
 	}
-
+	
 	public String getAdresseIp() {
 		return adresseIp;
 	}

@@ -9,6 +9,6 @@ public class PotionFreeze extends Potion{
 	private static final long serialVersionUID = 1L;
 
 	public PotionFreeze(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
-		super("Invisibilit�", "G12", caracts);
+		super("Freeze", "G12", caracts);
 	}
 }

@@ -4,7 +4,7 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 
-import client.StrategiePersonnage;
+import client.Strategies;
 import serveur.IArene;
 import serveur.element.personnages.Personnage;
 
@@ -45,7 +45,7 @@ public interface IConsole extends Remote {
 	 * @return strategie du personnage
 	 * @throws RemoteException
 	 */
-	public StrategiePersonnage getStrategiePers() throws RemoteException;
+	public Strategies getStrategiePers() throws RemoteException;
 	
 	/**
 	 * Recupere le personnage de la console.

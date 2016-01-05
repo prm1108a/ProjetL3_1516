@@ -7,6 +7,7 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.personnages.Assassin;
+import serveur.element.personnages.Charmeur;
 import serveur.element.personnages.Personnage;
 import serveur.element.personnages.Vampire;
 import serveur.vuelement.VuePersonnage;
@@ -31,6 +32,7 @@ public class Duel extends Interaction<VuePersonnage> {
 	
 	@Override
 	public void interagit() {
+		super.interagit();
 		try {
 			Personnage pAttaquant = attaquant.getElement();
 			int forceAttaquant = pAttaquant.getCaract(Caracteristique.FORCE);
@@ -43,12 +45,17 @@ public class Duel extends Interaction<VuePersonnage> {
 
 			// degats
 			if (perteVie > 0) {
-				puiserVie (attaquant, defenseur);
-				assassiner(attaquant, defenseur);
-				arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
+				if (charmer(defenseur)) {
+					puiserVie (attaquant, defenseur);
+					assassiner(attaquant, defenseur);
+					arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
-				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
+					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
 						+ perteVie + " points de degats) a " + Constantes.nomRaccourciClient(defenseur));
+				}
+				else {
+					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " charme " + Constantes.nomRaccourciClient(defenseur));
+				}
 			}
 			
 			// initiative
@@ -140,19 +147,23 @@ public class Duel extends Interaction<VuePersonnage> {
 	 */
 	private void puiserVie (VuePersonnage attaquant, VuePersonnage defenseur) throws RemoteException {
 		Personnage pattaquant = attaquant.getElement();
+		Personnage pdefenseur = defenseur.getElement();
 		if (pattaquant instanceof Vampire){
 			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
+			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);
 			try {
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " je puise ("
 						+ fattaquant + " points de vie) a " + Constantes.nomRaccourciClient(defenseur));
-				arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fattaquant);
+				arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fdefenseur);
 			} catch (RemoteException e) {
 				logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
 			}	
 		}
 	}
+	
+
 	/**
-	 * Vérifie que le personnage soit un assassin et tue l'adversaire.
+	 * VÃ©rifie que le personnage soit un assassin et tue l'adversaire.
 	 * @param attaquant attaquant
 	 * @param defenseur defenseur 
 	 */
@@ -164,7 +175,35 @@ public class Duel extends Interaction<VuePersonnage> {
 			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
 			if (fattaquant > fdefenseur){
 				pdefenseur.tue();
+				try {
+					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " je tue "
+							+ pdefenseur);
+					arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fdefenseur);
+				} catch (RemoteException e) {
+					logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
+				}	
 			}
 		}
 	}
+	
+	private boolean charmer (VuePersonnage defenseur){
+		Personnage pattaquant = attaquant.getElement();
+		Personnage pdefenseur = defenseur.getElement();
+		if (pattaquant instanceof Charmeur){
+			if (pdefenseur instanceof Charmeur){
+				return true;
+			}
+			else if (pdefenseur instanceof Personnage && pattaquant.getCaract(Caracteristique.CHARME) > 20){
+				attaquant.setPosition(Calculs.positionAleatoireArene());
+				pattaquant.incrementeCaract(Caracteristique.CHARME, - pattaquant.getCaract(Caracteristique.CHARME));
+				return false;
+			}
+			else 
+				return true;
+		}
+		else
+			return true;
+		
+	}
+	
 }
