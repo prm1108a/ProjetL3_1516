@@ -17,7 +17,8 @@ import utilitaires.Calculs;
 public class Personnage extends Element {
 	
 	private static final long serialVersionUID = 1L;
-
+	private int freeze = -1;
+	
 	/**
 	 * Cree un personnage avec un nom et un groupe.
 	 * @param nom du personnage
@@ -58,5 +59,13 @@ public class Personnage extends Element {
 	public boolean estVivant() {
 		Integer vie = caracts.get(Caracteristique.VIE);
 		return vie != null && vie > 0;
+	}
+
+	public int getFreeze() {
+		return freeze;
+	}
+
+	public void setFreeze(int freeze) {
+		this.freeze = freeze;
 	}
 }
