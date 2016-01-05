@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.personnages.Diable;
-import serveur.element.potions.PotionInvisibilite;
+import serveur.element.potions.PotionFreeze;
 import serveur.element.potions.PotionMalus;
 import serveur.element.potions.PotionTeleportation;
 import serveur.vuelement.VuePersonnage;
@@ -68,8 +68,8 @@ public class Ramassage extends Interaction<VuePotion> {
 					attaquant.setPosition(Calculs.positionAleatoireArene());
 				}
 				
-				if (defenseur.getElement() instanceof PotionInvisibilite){
-					//attaquant.getElement()
+				if (defenseur.getElement() instanceof PotionFreeze){
+					attaquant.getElement().setFreeze(1);
 				}
 				
 				if (defenseur.getElement() instanceof PotionMalus){
