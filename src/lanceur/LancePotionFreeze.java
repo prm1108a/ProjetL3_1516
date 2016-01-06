@@ -67,7 +67,7 @@ public class LancePotionFreeze {
 			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.INITIATIVE));
 			
 			// ajout de la potion
-			arene.ajoutePotion(new PotionFreeze(nom, groupe, caractsPotion), Calculs.positionAleatoireArene());
+			arene.ajoutePotion(new PotionFreeze(caractsPotion), Calculs.positionAleatoireArene());
 			logger.info("Lanceur", "Lancement de la potion freeze reussi");
 			
 		} catch (Exception e) {

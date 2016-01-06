@@ -24,6 +24,7 @@ import serveur.element.potions.Potion;
 import serveur.interaction.Deplacement;
 import serveur.interaction.Duel;
 import serveur.interaction.Ramassage;
+import serveur.interaction.Soin;
 import serveur.vuelement.VueElement;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -727,6 +728,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		return res;
 	}
 	
+	
 	@Override
 	public boolean lanceAttaque(int refRMI, int refRMIAdv) throws RemoteException {
 		boolean res = false;
@@ -833,6 +835,23 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			res = true;
 		}
 		
+		return res;
+	}
+	
+
+	@Override
+	public boolean soigne(int refRMI) throws RemoteException {
+		boolean res = false;
+		
+		VuePersonnage client = personnages.get(refRMI);
+		if (personnages.get(refRMI).isActionExecutee()) {
+			// si une action a deja ete executee
+			logActionDejaExecutee(refRMI);
+		} else {
+			// sinon, on tente de jouer l'interaction
+			new Soin(this, client).interagit();
+			res = true;
+		}
 		return res;
 	}
 
@@ -985,6 +1004,5 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 
 	@Override
 	public void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException {}
-
 	
 }

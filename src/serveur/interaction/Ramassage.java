@@ -1,6 +1,5 @@
 package serveur.interaction;
 
-import java.awt.Point;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -37,32 +36,33 @@ public class Ramassage extends Interaction<VuePotion> {
 		try {
 			logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " essaye de rammasser " + 
 					Constantes.nomRaccourciClient(defenseur));
-			
 			// si le personnage est vivant
 			if(attaquant.getElement().estVivant()) {
 
 				// caracteristiques de la potion
 				HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
 				
-				for(Caracteristique c : valeursPotion.keySet()) {
-					arene.incrementeCaractElement(attaquant, c, valeursPotion.get(c));
+				if (!(attaquant.getElement() instanceof Diable)){
+					for(Caracteristique c : valeursPotion.keySet()) {
+						arene.incrementeCaractElement(attaquant, c, valeursPotion.get(c));
+					}
 				}
-				
-				logs(Level.INFO, "Potion bue !");
-				
+				if (!(attaquant.getElement() instanceof Diable)){
+					logs(Level.INFO, "Potion bue !");
+				}
+				else if (defenseur.getElement() instanceof PotionMalus){
+					logs(Level.INFO, "c'est deja une potion malus elle n'est pas remplacee !");
+				}
+				else logs(Level.INFO, "Potion remplacee !");
 				// test si mort
 				if(!attaquant.getElement().estVivant()) {
 					arene.setPhrase(attaquant.getRefRMI(), "Je me suis empoisonne, je meurs ");
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vient de boire un poison... Mort >_<");
 				}
-
-				//remplacement de la potion par une potion malus si c'est un diable
-				if(attaquant.getElement() instanceof Diable){
+				if (attaquant.getElement() instanceof Diable){
 					remplacerPotion();
 				}
-				else{// suppression de la potion
-					arene.ejectePotion(defenseur.getRefRMI());
-				}
+				else arene.ejectePotion(defenseur.getRefRMI());
 				
 				if (defenseur.getElement() instanceof PotionTeleportation){
 					attaquant.setPosition(Calculs.positionAleatoireArene());
@@ -73,7 +73,9 @@ public class Ramassage extends Interaction<VuePotion> {
 				}
 				
 				if (defenseur.getElement() instanceof PotionMalus){
-					attaquant.getElement().incrementeCaract(Caracteristique.VIE, -10);
+					if (!(attaquant.getElement() instanceof Diable)){
+						attaquant.getElement().incrementeCaract(Caracteristique.VIE, -10);
+					}
 				}
 				
 			} else {
@@ -90,8 +92,16 @@ public class Ramassage extends Interaction<VuePotion> {
 	 * @throws RemoteException
 	 */
 	public void remplacerPotion() throws RemoteException {
-		Point ref = defenseur.getPosition();
-		arene.ejectePotion(defenseur.getRefRMI());
-		arene.ajoutePotion(new PotionMalus("Malus", "G12", new HashMap<Caracteristique,Integer>()), ref);
+		// caracteristiques de la potion
+		HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
+		int cvie = defenseur.getElement().getCaract(Caracteristique.VIE);
+		int cforce = defenseur.getElement().getCaract(Caracteristique.FORCE);
+		int cinit = defenseur.getElement().getCaract(Caracteristique.INITIATIVE);
+		caractsPotion.put(Caracteristique.VIE, cvie>0?-cvie:cvie);
+		caractsPotion.put(Caracteristique.FORCE, cforce>0?-cforce:cforce);
+		caractsPotion.put(Caracteristique.INITIATIVE, cinit>0?-cinit:cinit);
+		caractsPotion.put(Caracteristique.CHARME, 0);
+		defenseur.getElement().setCaracts(caractsPotion);
+		attaquant.setPosition(Calculs.positionAleatoireArene());
 	}
 }

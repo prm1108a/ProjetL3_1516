@@ -194,7 +194,7 @@ public class Duel extends Interaction<VuePersonnage> {
 				return true;
 			}
 			else if (pdefenseur instanceof Personnage && pattaquant.getCaract(Caracteristique.CHARME) > 20){
-				attaquant.setPosition(Calculs.positionAleatoireArene());
+				defenseur.setPosition(Calculs.positionAleatoireArene());
 				pattaquant.incrementeCaract(Caracteristique.CHARME, - pattaquant.getCaract(Caracteristique.CHARME));
 				return false;
 			}

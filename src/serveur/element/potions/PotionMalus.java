@@ -10,7 +10,7 @@ public class PotionMalus extends Potion{
 	
 	private int pointsARetirer = 10;
 
-	public PotionMalus(String nom, String groupe, HashMap<Caracteristique, Integer> caracts) {
+	public PotionMalus(HashMap<Caracteristique, Integer> caracts) {
 		super("Malus", "G12", caracts);
 	}
 	

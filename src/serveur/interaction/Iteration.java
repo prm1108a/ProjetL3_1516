@@ -33,8 +33,13 @@ public class Iteration {
 		Personnage pattaquant = attaquant.getElement();
 		int f = pattaquant.getFreeze();
 		if (f > 0 && f <= 5){
-			pattaquant.setFreeze(f++);
+			pattaquant.setFreeze(++f);
+			System.out.println("f = " + f);
 			return false;
+		}
+		else if (f > 5){
+			pattaquant.setFreeze(-1);
+			System.out.println("f > 5 ");
 		}
 		return true;
 	}

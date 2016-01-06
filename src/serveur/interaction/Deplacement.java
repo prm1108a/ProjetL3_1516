@@ -68,10 +68,11 @@ public class Deplacement {
 				// sinon :
 				// la cible devient le point sur lequel se trouve l'element objectif
 				pvers = voisins.get(refObjectif);
+				pvers = fuir (pvers);
 			}
 	
 			// on ne bouge que si l'element existe
-			if(pvers != null) {
+			if(pvers != null && iteration.checkFreeze()) {
 				seDirigeVers(pvers);
 			}
 		}
@@ -87,9 +88,8 @@ public class Deplacement {
 		
 		// on cherche le point voisin vide
 		Point dest = Calculs.meilleurPoint(personnage.getPosition(), cible, voisins);
-		dest = fuir (dest);
 		
-		if(dest != null && iteration.checkFreeze()) {
+		if(dest != null) {
 			personnage.setPosition(dest);
 		}
 	}
@@ -99,20 +99,29 @@ public class Deplacement {
 	 * @param cible (ou se trouve l'element)
 	 * @return cible (avec ou sans fuite)
 	 */
-	public Point fuir(Point cible) {
+	public Point fuir(Point direction) {
 		Personnage p = personnage.getElement();
 		Point pos = personnage.getPosition();
+		//System.out.println("cible: (" + direction.x + ", " + direction.y + ")" );
+		//System.out.println("pos: (" + pos.x + ", " + pos.y + ")" );
 		if (p instanceof Peureux){
-			if (pos.x > cible.x)
-				cible.x = cible.x + 2;
-			else if (pos.x < cible.x)
-				cible.x = cible.x - 2;
-			if (pos.y > cible.y)
-				cible.y = cible.y + 2;
-			else if (pos.y < cible.y)
-				cible.y = cible.y - 2;
+			if (direction.x > pos.x)
+				direction.x = pos.x - 2;
+			else if (direction.x < pos.x)
+				direction.x = pos.x + 2;
+			else
+				direction.x = pos.x;
+			if (direction.y > pos.y)
+				direction.y = pos.y - 2;
+			else if (direction.y < pos.y)
+				direction.y = pos.y + 2;
+			else
+				direction.y = pos.y;
+			//System.out.println("cible: (" + direction.x + ", " + direction.y + ")" );
+			//System.out.println("pos: (" + pos.x + ", " + pos.y + ")" );
+			
 		}
-		return cible;
+		return direction;
 	}
 	
 }

@@ -202,7 +202,15 @@ public interface IArene extends Remote {
 	public boolean deplace(int refRMI, Point objectif) throws RemoteException;
 	
 	
-
+	/**
+	 * Soigne le personnage correspondant a la console.
+	 * Le soin echoue si une action a deja ete executee a ce tour par 
+	 * ce personnage.
+	 * @param refRMI reference RMI du personnage voulant se soigner
+	 * @return vrai si l'action a bien eu lieu, faux sinon
+	 * @throws RemoteException
+	 */
+	public boolean soigne(int refRMI) throws RemoteException;
 	
 
 	/**************************************************************************

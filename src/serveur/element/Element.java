@@ -79,6 +79,10 @@ public abstract class Element implements Serializable {
 	public HashMap<Caracteristique, Integer> getCaracts() {
 		return caracts;
 	}
+	
+	public void setCaracts (HashMap<Caracteristique, Integer> c){
+		caracts = c;
+	}
 
 	@Override
 	public String toString() {
