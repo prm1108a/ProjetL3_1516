@@ -1,6 +1,3 @@
-/**
- * 
- */
 package serveur.interaction;
 
 import java.rmi.RemoteException;
@@ -12,11 +9,17 @@ import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 
 /**
- * @author MarieP
+ * Represente le soin d'un personnage : il recoit 5 points de vie.
  *
  */
+
 public class Soin extends Interaction<VuePotion>{
 
+	/**
+	 * Cree une interaction de soin.
+	 * @param arene arene
+	 * @param attaquant personnage recevant un soin
+	 */
 	public Soin(Arene arene, VuePersonnage attaquant) {
 		super(arene, attaquant, null);
 	}

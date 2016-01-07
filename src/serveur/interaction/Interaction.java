@@ -52,6 +52,7 @@ public abstract class Interaction<T extends VueElement<?>> {
 	 * Realise l'interaction.
 	 */
 	public void interagit(){
+		//ajoute un point de charme au charmeur
 		iteration.addCharme();
 	}
 	

@@ -42,33 +42,33 @@ public class Ramassage extends Interaction<VuePotion> {
 				// caracteristiques de la potion
 				HashMap<Caracteristique, Integer> valeursPotion = defenseur.getElement().getCaracts();
 				
-				if (!(attaquant.getElement() instanceof Diable)){
-					for(Caracteristique c : valeursPotion.keySet()) {
-						arene.incrementeCaractElement(attaquant, c, valeursPotion.get(c));
-					}
+				for(Caracteristique c : valeursPotion.keySet()) {
+					arene.incrementeCaractElement(attaquant, c, valeursPotion.get(c));
 				}
-				if (!(attaquant.getElement() instanceof Diable)){
-					logs(Level.INFO, "Potion bue !");
-				}
-				else logs(Level.INFO, "Potion remplacee !");
+				logs(Level.INFO, "Potion bue !");
 				// test si mort
 				if(!attaquant.getElement().estVivant()) {
 					arene.setPhrase(attaquant.getRefRMI(), "Je me suis empoisonne, je meurs ");
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " vient de boire un poison... Mort >_<");
 				}
+				//si c'est un diable qui prend la potion on change la potion sans la supprimer
 				if (attaquant.getElement() instanceof Diable){
-					remplacerPotion();
+					changePotion();
 				}
+				//sinon on la supprime
 				else arene.ejectePotion(defenseur.getRefRMI());
-				
+				//si on ramasse une potion de teleportation alors on deplace le personage 
+				//a une position aleatoire sur l'arene
 				if (defenseur.getElement() instanceof PotionTeleportation){
 					attaquant.setPosition(Calculs.positionAleatoireArene());
 				}
-				
+				//si on ramasse une potion freeze on fait passer l'attribut 
+				// du personnage à 1 pour dire que ce personnage doit être immobilisé
 				if (defenseur.getElement() instanceof PotionFreeze){
 					attaquant.getElement().setFreeze(1);
 				}
-				
+				//si on ramasse une potion bonus alors on augmente l'attribut bonus 
+				//udu personnage de 10 points
 				if (defenseur.getElement() instanceof PotionBonus){
 						attaquant.getElement().setBonus(attaquant.getElement().getBonus() + 10);
 				}
@@ -83,20 +83,24 @@ public class Ramassage extends Interaction<VuePotion> {
 	}
 	
 	/**
-	 * Permet de remplacer la potion ramassée par une potion malus
+	 * Permet de changer les caracteristiques de la potion ramassée 
+	 * en les passant en négatif
 	 * @throws RemoteException
 	 */
-	public void remplacerPotion() throws RemoteException {
-		// caracteristiques de la potion
+	public void changePotion() throws RemoteException {
+		//création de nouvelles caractéristiques
 		HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
 		int cvie = defenseur.getElement().getCaract(Caracteristique.VIE);
 		int cforce = defenseur.getElement().getCaract(Caracteristique.FORCE);
 		int cinit = defenseur.getElement().getCaract(Caracteristique.INITIATIVE);
+		//passage des valeurs en negatif
 		caractsPotion.put(Caracteristique.VIE, cvie>0?-cvie:cvie);
 		caractsPotion.put(Caracteristique.FORCE, cforce>0?-cforce:cforce);
 		caractsPotion.put(Caracteristique.INITIATIVE, cinit>0?-cinit:cinit);
+		//le charme n'évolue pas
 		caractsPotion.put(Caracteristique.CHARME, 0);
 		defenseur.getElement().setCaracts(caractsPotion);
+		//application des modifications
 		attaquant.setPosition(Calculs.positionAleatoireArene());
 	}
 }

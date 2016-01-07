@@ -102,43 +102,59 @@ public class Deplacement {
 	 * @return cible (avec ou sans fuite)
 	 */
 	public Point fuir(Point direction) {
-		Personnage p = personnage.getElement();
-		Point pos = personnage.getPosition();
+		Personnage p = personnage.getElement();//récupération du personnage 
+		Point pos = personnage.getPosition();//récupération de la position du personnage
 		Point newPoint = new Point();
-		Point distance = Calculs.distanceXY(pos, direction);
+		Point distance = Calculs.distanceXY(pos, direction); 
 		int distCheb = Calculs.distanceChebyshev(pos, direction);
+		//vérifie que ça soit un peureux
 		if (p instanceof Peureux){
+			// si le voisin à fuir se trouve en haut a gauche du peureux alors il se deplace 
+			// dans la direction opposée
 			if (direction.x < pos.x && direction.y < pos.y){
 				newPoint.setLocation(pos.x + 1, pos.y + 1);
 			}
+			// sinon si le voisin à fuir se trouve en bas a gauche du peureux alors il se deplace 
+			// dans la direction opposée
 			else if (direction.x < pos.x && direction.y > pos.y){
 				newPoint.setLocation(pos.x + 1, pos.y - 1);
 			}
+			// sinon si le voisins à fuir se trouve en haut a droite du peureux alors il se deplace 
+			// dans la direction opposée
 			else if (direction.x > pos.x && direction.y < pos.y){
 				newPoint.setLocation(pos.x - 1, pos.y + 1);
 			}
+			// sinon si le voisins à fuir se trouve en bas a droite du peureux alors il se deplace 
+			// dans la direction opposée
 			else if (direction.x > pos.x && direction.y > pos.y){
 				newPoint.setLocation(pos.x - 1, pos.y - 1);
 			}
 			//si le peureux se retrouve dans un coin
+			// alors il doit situer ses voisins pour pouvoir repartir dans l'autre sens 
+			// sans les rencontrer 
+			
+			//si il est dans le coin haut gauche
 			else if (pos.x == Constantes.XMIN_ARENE && pos.y == Constantes.YMIN_ARENE){
 				if (distCheb == distance.y){
 					newPoint.setLocation(pos.x, pos.y + 1);
 				}
 				else newPoint.setLocation(pos.x + 1, pos.y);
 			}
+			//si il est dans le coin bas gauche
 			else if (pos.x == Constantes.XMIN_ARENE && pos.y == Constantes.YMAX_ARENE){
 				if (distCheb == distance.y){
 					newPoint.setLocation(pos.x, pos.y - 1);
 				}
 				else newPoint.setLocation(pos.x + 1, pos.y);
 			}
+			//si il est dans le coin haut droite
 			else if (pos.x == Constantes.XMAX_ARENE && pos.y == Constantes.YMIN_ARENE){
 				if (distCheb == distance.y){
 					newPoint.setLocation(pos.x, pos.y + 1);
 				}
 				else newPoint.setLocation(pos.x - 1, pos.y);
 			}
+			//si il est dans le coin bas droite
 			else if (pos.x == Constantes.XMAX_ARENE && pos.y == Constantes.YMAX_ARENE){
 				if (distCheb == distance.y){
 					newPoint.setLocation(pos.x, pos.y - 1);

@@ -11,7 +11,7 @@ import serveur.element.personnages.Peureux;
 public class StrategiePeureux extends Strategies{
 	
 	/**
-	 * Cree un personnage, la console associe et sa strategie.
+	 * Cree un peureux, la console associe et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
 	 * @param port port de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage
@@ -28,7 +28,7 @@ public class StrategiePeureux extends Strategies{
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Peureux(nom, groupe, caracts), 
+					new Peureux(caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			

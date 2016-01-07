@@ -15,7 +15,7 @@ public class LancePotionBonus {
 	private static String usage = "USAGE : java " + LancePotionBonus.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
-		String nom = "Malus";
+		String nom = "Bonus";
 		
 		// TODO remplacer la ligne suivante par votre numero de groupe
 		String groupe = "G12"; 
@@ -47,7 +47,7 @@ public class LancePotionBonus {
 		// creation du logger
 		LoggerProjet logger = null;
 		try {
-			logger = new LoggerProjet(true, "potion_malus_"+nom+groupe);
+			logger = new LoggerProjet(true, "potion_bonus_"+nom+groupe);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(ErreurLancement.suivant);
@@ -57,7 +57,7 @@ public class LancePotionBonus {
 		try {
 			IArene arene = (IArene) java.rmi.Naming.lookup(Constantes.nomRMI(ipArene, port, "Arene"));
 
-			logger.info("Lanceur", "Lancement de la potion malus sur le serveur...");
+			logger.info("Lanceur", "Lancement de la potion bonus sur le serveur...");
 			
 			// caracteristiques de la potion
 			HashMap<Caracteristique, Integer> caractsPotion = new HashMap<Caracteristique, Integer>();
@@ -68,7 +68,7 @@ public class LancePotionBonus {
 			
 			// ajout de la potion
 			arene.ajoutePotion(new PotionBonus(caractsPotion), Calculs.positionAleatoireArene());
-			logger.info("Lanceur", "Lancement de la potion malus reussi");
+			logger.info("Lanceur", "Lancement de la potion bonus reussi");
 			
 		} catch (Exception e) {
 			logger.severe("Lanceur", "Erreur lancement :\n" + e.getCause());

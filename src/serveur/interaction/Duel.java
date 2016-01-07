@@ -45,9 +45,13 @@ public class Duel extends Interaction<VuePersonnage> {
 
 			// degats
 			if (perteVie > 0) {
+				//on verfie si c'est un charmeur, si oui on effectue sa fonction
 				if (charmer(defenseur)) {
+					//on verifie si c'est un vampire, si oui on effectue sa fonction
 					puiserVie (attaquant, defenseur);
+					//on verifie si c'est un assasin, si oui on effectue sa fonction
 					assassiner(attaquant, defenseur);
+					//appliquer les degats commis lors du duel au defenseur
 					arene.incrementeCaractElement(defenseur, Caracteristique.VIE, -perteVie);
 				
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " colle une beigne ("
@@ -140,21 +144,21 @@ public class Duel extends Interaction<VuePersonnage> {
 	}
 	
 	/**
-	 * VÃ©rifie que le personnage soit un vampire, et lui prend de la vie.
+	 * Verifie que le personnage soit un vampire, et lui prend de la vie.
 	 * @param attaquant attaquant
 	 * @param defenseur defenseur
 	 * @throws RemoteException 
 	 */
 	private void puiserVie (VuePersonnage attaquant, VuePersonnage defenseur) throws RemoteException {
-		Personnage pattaquant = attaquant.getElement();
-		Personnage pdefenseur = defenseur.getElement();
+		Personnage pattaquant = attaquant.getElement();//récupération du personnage attaquant
+		Personnage pdefenseur = defenseur.getElement();//récupération du personnage defenseur
 		if (pattaquant instanceof Vampire){
-			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
-			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);
+			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);//récupération de la force de l'attaquant
+			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);//récupération de la force du defenseur
 			try {
 				logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " je puise ("
 						+ fattaquant + " points de vie) a " + Constantes.nomRaccourciClient(defenseur));
-				arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fdefenseur);
+				arene.incrementeCaractElement(attaquant, Caracteristique.VIE, fdefenseur);//incrementation de la vie du vampire
 			} catch (RemoteException e) {
 				logs(Level.INFO, "\nErreur lors d'une attaque : " + e.toString());
 			}	
@@ -163,17 +167,19 @@ public class Duel extends Interaction<VuePersonnage> {
 	
 
 	/**
-	 * VÃ©rifie que le personnage soit un assassin et tue l'adversaire.
+	 * Verifie que le personnage soit un assassin et tue l'adversaire.
 	 * @param attaquant attaquant
 	 * @param defenseur defenseur 
 	 */
 	private void assassiner(VuePersonnage attaquant, VuePersonnage defenseur){
-		Personnage pattaquant = attaquant.getElement();
-		Personnage pdefenseur = defenseur.getElement();
+		Personnage pattaquant = attaquant.getElement();//récupération du personnage attaquant
+		Personnage pdefenseur = defenseur.getElement();//récupération du personnage defenseur
 		if (pattaquant instanceof Assassin){
-			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);
-			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);
+			int fdefenseur = pdefenseur.getCaract(Caracteristique.FORCE);//récupération de la force de l'attaquant
+			int fattaquant = pattaquant.getCaract(Caracteristique.FORCE);//récupération de la force du defenseur
+			//si la force de l'attaquant est superieure a celle du defenseur 
 			if (fattaquant > fdefenseur){
+				//on tue le defenseur
 				pdefenseur.tue();
 				try {
 					logs(Level.INFO, Constantes.nomRaccourciClient(attaquant) + " je tue "
@@ -186,15 +192,24 @@ public class Duel extends Interaction<VuePersonnage> {
 		}
 	}
 	
+	/**
+	 * Verifie que le personnage soit un charmeur et effectue la fonction du charmeur.
+	 * @param defenseur defenseur 
+	 */
 	private boolean charmer (VuePersonnage defenseur){
-		Personnage pattaquant = attaquant.getElement();
-		Personnage pdefenseur = defenseur.getElement();
+		Personnage pattaquant = attaquant.getElement();//récupération du personnage attaquant
+		Personnage pdefenseur = defenseur.getElement();//récupération du personnage defenseur
+		//si l'attaquant est un charmeur
 		if (pattaquant instanceof Charmeur){
+			//et que le defenseur est un charmeur
 			if (pdefenseur instanceof Charmeur){
 				return true;
 			}
+			//sinon si le defenseur n'est pas un charmeur et que le charmeur a un charme de plus de 20 points
 			else if (pdefenseur instanceof Personnage && pattaquant.getCaract(Caracteristique.CHARME) > 20){
+				//alors il teleporte le defenseur
 				defenseur.setPosition(Calculs.positionAleatoireArene());
+				//et la barre de charme de l'attaquant à 0
 				pattaquant.incrementeCaract(Caracteristique.CHARME, - pattaquant.getCaract(Caracteristique.CHARME));
 				return false;
 			}

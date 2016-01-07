@@ -1,6 +1,3 @@
-/**
- * 
- */
 package serveur.element.personnages;
 
 import java.util.HashMap;

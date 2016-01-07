@@ -11,7 +11,7 @@ import serveur.element.personnages.Charmeur;
 public class StrategieCharmeur extends Strategies{
 	
 	/**
-	 * Cree un personnage, la console associe et sa strategie.
+	 * Cree un charmeur, la console associe et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
 	 * @param port port de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage
@@ -28,7 +28,7 @@ public class StrategieCharmeur extends Strategies{
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Charmeur(nom, groupe, caracts), 
+					new Charmeur(caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			

@@ -11,7 +11,7 @@ import serveur.element.personnages.Vampire;
 public class StrategieVampire extends Strategies{
 	
 	/**
-	 * Cree un personnage, la console associe et sa strategie.
+	 * Cree un vampire, la console associe et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
 	 * @param port port de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage
@@ -28,7 +28,7 @@ public class StrategieVampire extends Strategies{
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Vampire(nom, groupe, caracts), 
+					new Vampire(caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			

@@ -10,7 +10,7 @@ import serveur.element.personnages.Assassin;
 
 public class StrategieAssassin extends Strategies{
 	/**
-	 * Cree un personnage, la console associe et sa strategie.
+	 * Cree un assassin, la console associe et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
 	 * @param port port de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage
@@ -27,7 +27,7 @@ public class StrategieAssassin extends Strategies{
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Assassin(nom, groupe, caracts), 
+					new Assassin(caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			

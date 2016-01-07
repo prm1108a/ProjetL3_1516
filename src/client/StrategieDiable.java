@@ -11,7 +11,7 @@ import serveur.element.personnages.Diable;
 public class StrategieDiable extends Strategies{
 	
 	/**
-	 * Cree un personnage, la console associe et sa strategie.
+	 * Cree un diable, la console associe et sa strategie.
 	 * @param ipArene ip de communication avec l'arene
 	 * @param port port de communication avec l'arene
 	 * @param ipConsole ip de la console du personnage
@@ -28,7 +28,7 @@ public class StrategieDiable extends Strategies{
 		
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Diable(nom, groupe, caracts), 
+					new Diable(caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 			
