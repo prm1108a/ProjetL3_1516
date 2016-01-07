@@ -6,13 +6,13 @@ import java.util.HashMap;
 import logger.LoggerProjet;
 import serveur.IArene;
 import serveur.element.Caracteristique;
-import serveur.element.potions.PotionMalus;
+import serveur.element.potions.PotionBonus;
 import utilitaires.Calculs;
 import utilitaires.Constantes;
 
-public class LancePotionMalus {
+public class LancePotionBonus {
 	
-	private static String usage = "USAGE : java " + LancePotionMalus.class.getName() + " [ port [ ipArene ] ]";
+	private static String usage = "USAGE : java " + LancePotionBonus.class.getName() + " [ port [ ipArene ] ]";
 
 	public static void main(String[] args) {
 		String nom = "Malus";
@@ -67,7 +67,7 @@ public class LancePotionMalus {
 			caractsPotion.put(Caracteristique.INITIATIVE, Calculs.valeurCaracAleatoirePosNeg(Caracteristique.INITIATIVE));
 			
 			// ajout de la potion
-			arene.ajoutePotion(new PotionMalus(caractsPotion), Calculs.positionAleatoireArene());
+			arene.ajoutePotion(new PotionBonus(caractsPotion), Calculs.positionAleatoireArene());
 			logger.info("Lanceur", "Lancement de la potion malus reussi");
 			
 		} catch (Exception e) {

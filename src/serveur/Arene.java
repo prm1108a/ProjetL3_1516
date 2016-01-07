@@ -472,8 +472,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		} catch (NotBoundException e) {
 			console = null;
 			logger.severe(Constantes.nomClasse(this), "Erreur : acces a " + adr + "\n" + e.toString());
-			e.printStackTrace();
-			
+			e.printStackTrace();	
 		} catch (NullPointerException e) {
 			console = null;
 		}

@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import client.controle.Console;
 import serveur.IArene;
+import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.potions.Potion;
 import utilitaires.Calculs;
@@ -47,7 +48,10 @@ public class Strategies {
 			
 			if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
 				console.setPhrase("J'erre...");
-				arene.deplace(refRMI, 0); 
+				if (console.getPersonnage().getCaract(Caracteristique.VIE) < 100)
+						arene.soigne(refRMI);
+				else 
+					arene.deplace(refRMI, 0); 
 				
 			} else {
 				int refCible = Calculs.chercheElementProche(position, voisins);

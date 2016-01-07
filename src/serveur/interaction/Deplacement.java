@@ -8,6 +8,7 @@ import serveur.element.personnages.Personnage;
 import serveur.element.personnages.Peureux;
 import serveur.vuelement.VuePersonnage;
 import utilitaires.Calculs;
+import utilitaires.Constantes;
 
 /**
  * Represente le deplacement d'un personnage.
@@ -68,6 +69,7 @@ public class Deplacement {
 				// sinon :
 				// la cible devient le point sur lequel se trouve l'element objectif
 				pvers = voisins.get(refObjectif);
+				//trouver l'arene pour faire estPotionRef
 				pvers = fuir (pvers);
 			}
 	
@@ -102,27 +104,51 @@ public class Deplacement {
 	public Point fuir(Point direction) {
 		Personnage p = personnage.getElement();
 		Point pos = personnage.getPosition();
-		//System.out.println("cible: (" + direction.x + ", " + direction.y + ")" );
-		//System.out.println("pos: (" + pos.x + ", " + pos.y + ")" );
+		Point newPoint = new Point();
+		Point distance = Calculs.distanceXY(pos, direction);
+		int distCheb = Calculs.distanceChebyshev(pos, direction);
 		if (p instanceof Peureux){
-			if (direction.x > pos.x)
-				direction.x = pos.x - 2;
-			else if (direction.x < pos.x)
-				direction.x = pos.x + 2;
-			else
-				direction.x = pos.x;
-			if (direction.y > pos.y)
-				direction.y = pos.y - 2;
-			else if (direction.y < pos.y)
-				direction.y = pos.y + 2;
-			else
-				direction.y = pos.y;
-			//System.out.println("cible: (" + direction.x + ", " + direction.y + ")" );
-			//System.out.println("pos: (" + pos.x + ", " + pos.y + ")" );
-			
+			if (direction.x < pos.x && direction.y < pos.y){
+				newPoint.setLocation(pos.x + 1, pos.y + 1);
+			}
+			else if (direction.x < pos.x && direction.y > pos.y){
+				newPoint.setLocation(pos.x + 1, pos.y - 1);
+			}
+			else if (direction.x > pos.x && direction.y < pos.y){
+				newPoint.setLocation(pos.x - 1, pos.y + 1);
+			}
+			else if (direction.x > pos.x && direction.y > pos.y){
+				newPoint.setLocation(pos.x - 1, pos.y - 1);
+			}
+			//si le peureux se retrouve dans un coin
+			else if (pos.x == Constantes.XMIN_ARENE && pos.y == Constantes.YMIN_ARENE){
+				if (distCheb == distance.y){
+					newPoint.setLocation(pos.x, pos.y + 1);
+				}
+				else newPoint.setLocation(pos.x + 1, pos.y);
+			}
+			else if (pos.x == Constantes.XMIN_ARENE && pos.y == Constantes.YMAX_ARENE){
+				if (distCheb == distance.y){
+					newPoint.setLocation(pos.x, pos.y - 1);
+				}
+				else newPoint.setLocation(pos.x + 1, pos.y);
+			}
+			else if (pos.x == Constantes.XMAX_ARENE && pos.y == Constantes.YMIN_ARENE){
+				if (distCheb == distance.y){
+					newPoint.setLocation(pos.x, pos.y + 1);
+				}
+				else newPoint.setLocation(pos.x - 1, pos.y);
+			}
+			else if (pos.x == Constantes.XMAX_ARENE && pos.y == Constantes.YMAX_ARENE){
+				if (distCheb == distance.y){
+					newPoint.setLocation(pos.x, pos.y - 1);
+				}
+				else newPoint.setLocation(pos.x - 1, pos.y);
+			}
+			return newPoint;	
 		}
-		return direction;
+		else {
+			return direction;
+		}
 	}
-	
-}
-
+}	

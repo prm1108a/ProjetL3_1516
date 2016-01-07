@@ -18,6 +18,7 @@ public class Personnage extends Element {
 	
 	private static final long serialVersionUID = 1L;
 	private int freeze = -1;
+	private int bonus = 0;
 	
 	/**
 	 * Cree un personnage avec un nom et un groupe.
@@ -36,12 +37,24 @@ public class Personnage extends Element {
 	 * @param c caracteristique
 	 * @param inc increment (peut etre positif ou negatif)
 	 */
-	public void incrementeCaract(Caracteristique c, int inc) {		
+	public void incrementeCaract(Caracteristique c, int inc) {	
+		inc = multiplieCaract(inc);
 		if(caracts.containsKey(c)) {
 			caracts.put(c, Calculs.restreintCarac(c, caracts.get(c) + inc));
 		} else {
 			caracts.put(c, Calculs.restreintCarac(c, inc));
 		}
+	}
+	
+	/**
+	 * Multiplie la valeur inc par le pourcentage du bonus
+	 * @param inc increment (peut etre positif ou negatif)
+	 */
+	public int multiplieCaract(int inc) {		
+		if (inc > 0)
+			return inc + ((inc * bonus) /100);
+		else
+			return inc;
 	}
 	
 	/**
@@ -67,5 +80,13 @@ public class Personnage extends Element {
 
 	public void setFreeze(int freeze) {
 		this.freeze = freeze;
+	}
+
+	public int getBonus() {
+		return bonus;
+	}
+
+	public void setBonus(int bonus) {
+		this.bonus = bonus;
 	}
 }

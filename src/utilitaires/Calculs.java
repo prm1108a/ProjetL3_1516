@@ -25,6 +25,18 @@ public class Calculs {
 	public static int distanceChebyshev(Point p1, Point p2) {
 		return Math.max(Math.abs(p1.x-p2.x),Math.abs(p1.y-p2.y));
 	}
+	
+	/**
+	 * Renvoie la distance en x et en y entre deux points.
+	 * @param p1 le premier point
+	 * @param p2 le deuxieme point
+	 * @return distance de Chebyshev
+	 */
+	public static Point distanceXY(Point p1, Point p2) {
+		Point dist = new Point();
+		dist.setLocation(Math.abs(p1.x-p2.x),Math.abs(p1.y-p2.y));
+		return dist;
+	}
 
 	/**
 	 * Verifie si un element parmi les voisins occupe la position donnee. 

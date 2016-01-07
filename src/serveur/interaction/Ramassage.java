@@ -8,7 +8,7 @@ import serveur.Arene;
 import serveur.element.Caracteristique;
 import serveur.element.personnages.Diable;
 import serveur.element.potions.PotionFreeze;
-import serveur.element.potions.PotionMalus;
+import serveur.element.potions.PotionBonus;
 import serveur.element.potions.PotionTeleportation;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
@@ -50,9 +50,6 @@ public class Ramassage extends Interaction<VuePotion> {
 				if (!(attaquant.getElement() instanceof Diable)){
 					logs(Level.INFO, "Potion bue !");
 				}
-				else if (defenseur.getElement() instanceof PotionMalus){
-					logs(Level.INFO, "c'est deja une potion malus elle n'est pas remplacee !");
-				}
 				else logs(Level.INFO, "Potion remplacee !");
 				// test si mort
 				if(!attaquant.getElement().estVivant()) {
@@ -72,10 +69,8 @@ public class Ramassage extends Interaction<VuePotion> {
 					attaquant.getElement().setFreeze(1);
 				}
 				
-				if (defenseur.getElement() instanceof PotionMalus){
-					if (!(attaquant.getElement() instanceof Diable)){
-						attaquant.getElement().incrementeCaract(Caracteristique.VIE, -10);
-					}
+				if (defenseur.getElement() instanceof PotionBonus){
+						attaquant.getElement().setBonus(attaquant.getElement().getBonus() + 10);
 				}
 				
 			} else {
